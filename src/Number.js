@@ -3,7 +3,7 @@ import "./App.css";
 
 const Number = ({
   nr,
-  indexVal,
+  clickableNumber,
 onClick
 }) => {
     return(
@@ -12,7 +12,7 @@ onClick
     style={{
       backgroundColor: nr === null ? "#f3d7ca" : "#393e46",
       color:
-        indexVal.length > 0 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)"
+        clickableNumber.length > 0 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)"
     }}
     onClick={onClick}
   >

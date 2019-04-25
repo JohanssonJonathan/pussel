@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import getWorkingNumbers from "./clickableValues";
+import getPossibleNumbersToClick from "./clickableValues";
 import Number from "./Number";
 import Button from "./Button";
 import { CSSTransition } from "react-transition-group";
@@ -76,19 +76,19 @@ class App extends Component {
             style={{ transform: shuffle ? "rotateY(180deg)" : "rotateY(0deg)" }}
           >
             {currentNumbers.map((nr, i) => {
-              const indexVal = getWorkingNumbers(currentNumbers).filter(
+              const clickableNumber = getPossibleNumbersToClick(currentNumbers).filter(
                 item => nr === item
               );
 
               return (
                 <Number
                   nr={nr}
-                  indexVal={indexVal}
+                  clickableNumber={clickableNumber}
                   key={i}
                   onClick={() =>
                     this.setNewPossibleNumbersToClick(
                       i,
-                      getWorkingNumbers(currentNumbers)
+                      getPossibleNumbersToClick(currentNumbers)
                     )
                   }
                 />

@@ -1,7 +1,7 @@
 
-const getWorkingNumbers =(numbers)=>{
+const getPossibleNumbersToClick =(numbers)=>{
 
-    let workingNumbers = [];
+    let possibleNumbersToClick = [];
     numbers.map((nr, i) => {
       if (nr === null) {
         const index = i + 1;
@@ -11,13 +11,13 @@ const getWorkingNumbers =(numbers)=>{
             //Left side
             if (index < 2) {
               //Up on the left side
-              workingNumbers = [numbers[index], numbers[index + 3]];
+              possibleNumbersToClick = [numbers[index], numbers[index + 3]];
             } else if (index > 12) {
               //Down left side
-              workingNumbers = [numbers[index], numbers[index - 5]];
+              possibleNumbersToClick = [numbers[index], numbers[index - 5]];
             } else {
               // Middle of left side
-              workingNumbers = [
+              possibleNumbersToClick = [
                 numbers[index],
                 numbers[index - 5],
                 numbers[index + 3]
@@ -27,13 +27,13 @@ const getWorkingNumbers =(numbers)=>{
             //Right side
             if (index < 5) {
               //Up on the right side
-              workingNumbers = [numbers[index - 2], numbers[index + 3]];
+              possibleNumbersToClick = [numbers[index - 2], numbers[index + 3]];
             } else if (index > 12) {
               //Down on the right side
-              workingNumbers = [numbers[index - 2], numbers[index - 5]];
+              possibleNumbersToClick = [numbers[index - 2], numbers[index - 5]];
             } else {
               //Middle of right side
-              workingNumbers = [
+              possibleNumbersToClick = [
                 numbers[index - 2],
                 numbers[index - 5],
                 numbers[index + 3]
@@ -44,21 +44,21 @@ const getWorkingNumbers =(numbers)=>{
           //In the middle
           if (index > 13) {
             // Bottom side
-            workingNumbers = [
+            possibleNumbersToClick = [
               numbers[index - 2],
               numbers[index - 5],
               numbers[index]
             ];
           } else if (index < 4) {
             // Top side
-            workingNumbers = [
+            possibleNumbersToClick = [
               numbers[index],
               numbers[index - 2],
               numbers[index + 3]
             ];
           } else {
             //Center
-            workingNumbers = [
+            possibleNumbersToClick = [
               numbers[index + 3],
               numbers[index - 5],
               numbers[index - 2],
@@ -68,8 +68,8 @@ const getWorkingNumbers =(numbers)=>{
         }
       }
     });
-    return workingNumbers
+    return possibleNumbersToClick
 }
 
-export default getWorkingNumbers
+export default getPossibleNumbersToClick
 
