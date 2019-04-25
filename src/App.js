@@ -1,137 +1,108 @@
 import React, { Component } from "react";
 import "./App.css";
-import { isTemplateElement } from "@babel/types";
+import getWorkingNumbers from "./clickableValues";
+import Number from "./Number";
+import Button from "./Button";
+import { CSSTransition } from "react-transition-group";
 
 class App extends Component {
   state = {
-    numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, null],
-    workingNumbers: []
+    correctNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, null],
+    currentNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, null],
+    possibleNumbersToClick: [],
+    shuffle: false,
+    shuffleDone: false
   };
 
-  componentDidMount() {
-    let shuffled = this.state.numbers
+  startShuffle = value => {
+    let shuffled = this.state.currentNumbers
       .map(a => ({ sort: Math.random(), value: a }))
       .sort((a, b) => a.sort - b.sort)
       .map(a => a.value);
 
     this.setState({
-      numbers: shuffled
+      shuffle: value && true,
+      currentNumbers: value ? this.state.currentNumbers : shuffled
     });
+  };
+
+  componentDidMount() {
+    this.startShuffle();
   }
 
-  setNewNumbers =(i,workingNumbers)=>{
-    const {numbers}= this.state;
+  setNewPossibleNumbersToClick = (i, possibleNumbersToClick) => {
+    const { currentNumbers } = this.state;
 
-    const pressedCorrectNr = workingNumbers.filter((nr)=>numbers[i]===nr)
-    if(pressedCorrectNr.length>0){
-      // switch place with null with the new value
-      const newNumbers = numbers.map((nr)=>{
-        if(nr===null){
-          return pressedCorrectNr[0]
-        }else if(pressedCorrectNr[0]=== nr){
-          return null
-        }else{
-          return nr
+    const pressedCorrectNr = possibleNumbersToClick.filter(
+      nr => currentNumbers[i] === nr
+    );
+    if (pressedCorrectNr.length > 0) {
+      const newNumbers = currentNumbers.map(nr => {
+        if (nr === null) {
+          return pressedCorrectNr[0];
+        } else if (pressedCorrectNr[0] === nr) {
+          return null;
+        } else {
+          return nr;
         }
-      })  
-    
-        this.setState({
-          numbers:newNumbers
-        })
+      });
+
+      this.setState({
+        currentNumbers: newNumbers
+      });
+    }
+  };
+
+  componentDidUpdate() {
+    if (this.state.shuffleDone) {
+      this.startShuffle();
+      this.setState({ shuffleDone: false });
     }
   }
-
   render() {
-    const { numbers } = this.state;
+    const { currentNumbers, shuffle, shuffleDone, correctNumbers } = this.state;
+    const isEqual = currentNumbers.filter((nr, i) => nr === correctNumbers[i]);
 
-    /* talet den röda är på t.ex. 9%4 eftesom att de är en rad på 4. 
-      om siffran blir 1 så är den ute på vänster kant. om den blir 0 så är den på höger kant.
-      */
-    let workingNumbers = [];
-    numbers.map((nr, i) => {
-      if (nr === null) {
-        const index = i + 1;
-        const leftOrRightPosition = index % 4;
-        if (leftOrRightPosition === 0 || leftOrRightPosition === 1) {
-          if (leftOrRightPosition === 1) {
-            //Left side
-            if (index < 2) {
-              //Up on the left side
-              workingNumbers = [numbers[index], numbers[index + 3]];
-
-            } else if (index > 12) {
-              //Down left side
-              workingNumbers = [numbers[index], numbers[index - 5]];
-
-            } else {
-              // Middle of left side
-              workingNumbers = [
-                numbers[index],
-                numbers[index - 5],
-                numbers[index + 3]
-              ];
-
-            }
-          } else {
-            //Right side
-            if (index < 5) {
-              //Up on the right side
-              workingNumbers = [numbers[index - 2], numbers[index + 3]];
-
-            } else if (index > 12) {
-              //Down on the right side
-              workingNumbers = [numbers[index - 2], numbers[index - 5]];
-
-            } else {
-              //Middle of right side
-              workingNumbers = [
-                numbers[index - 2],
-                numbers[index - 5],
-                numbers[index + 3]
-              ];
-
-            }
-          }
-        } else {
-          //In the middle 
-          if (index === 15 || index === 14) {
-            // Bottom side
-            workingNumbers = [
-              numbers[index - 2],
-              numbers[index - 5],
-              numbers[index]
-            ];
-
-
-          } else if (index === 2 || index === 3) {
-            // Top side
-            workingNumbers = [
-              numbers[index],
-              numbers[index - 2],
-              numbers[index + 3]
-            ];
-
-          } else {
-            //Center
-            workingNumbers = [
-              numbers[index + 3],
-              numbers[index - 5],
-              numbers[index - 2],
-              numbers[index]
-            ];
-
-          }
-        }
-      }
-    });
-   
     return (
-      <div className="main-container">
-        {numbers.map((nr, i) => (
-          <div className="cell" key={i} onClick={()=>this.setNewNumbers(i,workingNumbers)}>
-            {nr}
+      <div>
+        <CSSTransition
+          in={shuffle}
+          classNames="main-container"
+          timeout={200}
+          onEntered={() => this.setState({ shuffleDone: !shuffleDone })}
+        >
+          <div
+            className="main-container"
+            style={{ transform: shuffle ? "rotateY(180deg)" : "rotateY(0deg)" }}
+          >
+            {currentNumbers.map((nr, i) => {
+              const indexVal = getWorkingNumbers(currentNumbers).filter(
+                item => nr === item
+              );
+
+              return (
+                <Number
+                  nr={nr}
+                  indexVal={indexVal}
+                  key={i}
+                  onClick={() =>
+                    this.setNewPossibleNumbersToClick(
+                      i,
+                      getWorkingNumbers(currentNumbers)
+                    )
+                  }
+                />
+              );
+            })}
           </div>
-        ))}
+        </CSSTransition>
+
+        <div className="shuffle-container">
+          <Button onClick={() => this.startShuffle(true)}>Shuffle</Button>
+          {isEqual.length === 16 && (
+            <h4 className="finished">Congratulations you made it!</h4>
+          )}
+        </div>
       </div>
     );
   }
