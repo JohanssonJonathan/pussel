@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/pussel/static/css/main.fc801adf.chunk.css",
-    "main.js": "/pussel/static/js/main.c2f26baa.chunk.js",
-    "main.js.map": "/pussel/static/js/main.c2f26baa.chunk.js.map",
+    "main.css": "/pussel/static/css/main.ffdbfe08.chunk.css",
+    "main.js": "/pussel/static/js/main.714aa546.chunk.js",
+    "main.js.map": "/pussel/static/js/main.714aa546.chunk.js.map",
     "runtime~main.js": "/pussel/static/js/runtime~main.006035b0.js",
     "runtime~main.js.map": "/pussel/static/js/runtime~main.006035b0.js.map",
     "static/js/2.11a12481.chunk.js": "/pussel/static/js/2.11a12481.chunk.js",
     "static/js/2.11a12481.chunk.js.map": "/pussel/static/js/2.11a12481.chunk.js.map",
     "index.html": "/pussel/index.html",
-    "precache-manifest.8b52ff71e30c8db4abe227ae43a43235.js": "/pussel/precache-manifest.8b52ff71e30c8db4abe227ae43a43235.js",
+    "precache-manifest.d364114154535440bdbacf5c6aecf9a9.js": "/pussel/precache-manifest.d364114154535440bdbacf5c6aecf9a9.js",
     "service-worker.js": "/pussel/service-worker.js",
-    "static/css/main.fc801adf.chunk.css.map": "/pussel/static/css/main.fc801adf.chunk.css.map"
+    "static/css/main.ffdbfe08.chunk.css.map": "/pussel/static/css/main.ffdbfe08.chunk.css.map"
   }
 }
